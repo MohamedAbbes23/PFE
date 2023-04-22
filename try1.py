@@ -22,3 +22,8 @@ print('Full period of LFSR = 31-cycles')
 print(L.arr2str(seq_full))
 
 L.Viz()
+#*************************************************
+# Importing math Library
+import math
+# This will print the value of pi in the output
+print (math.pi)
