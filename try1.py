@@ -27,3 +27,5 @@ L.Viz()
 import math
 # This will print the value of pi in the output
 print (math.pi)
+#*************************************************
+xor_num = num1 ^ num2
