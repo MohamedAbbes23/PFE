@@ -32,6 +32,10 @@ print(moduloMultiplication(a, b, m));
 	
 # Import math Library
 import math
+#***********
+import mpmath as m
+m.mp.dps = 1000
+print(m.mp.pi)
 
 
 # Return the sine of different values
