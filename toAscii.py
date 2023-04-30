@@ -23,3 +23,11 @@ a = 79
 bin_a = bin(a)
 print(bin_a)
 print(int(bin_a, 2))
+
+
+#python 3.x
+text = input("enter a string to convert into ascii values:")
+ascii_values = []
+for character in text:
+    ascii_values.append(ord(character))
+print(ascii_values)
