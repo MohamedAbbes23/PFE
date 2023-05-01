@@ -31,3 +31,8 @@ ascii_values = []
 for character in text:
     ascii_values.append(ord(character))
 print(ascii_values)
+#********************************************
+num = 24.89
+
+rounded = round(num, 1)
+print(rounded)
