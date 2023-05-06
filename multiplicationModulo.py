@@ -33,6 +33,11 @@ print(moduloMultiplication(a, b, m));
 # Import math Library
 import math
 #***********
+str = 'CarBadBoxNumKeyValRayCppSan'
+
+n = 3
+chunks = [str[i:i+n] for i in range(0, len(str), n)]
+print(chunks)
 import mpmath as m
 m.mp.dps = 1000
 print(m.mp.pi)
