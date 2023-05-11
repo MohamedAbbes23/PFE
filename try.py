@@ -41,3 +41,11 @@ result = hashlib.md5(b'GeeksforGeeks')
 # printing the equivalent byte value.
 print("The byte equivalent of hash is : ", end ="")
 print(result.digest())
+
+
+
+import math
+i = 2 
+k = 11
+pos = round(abs(math.sin(i +k))* (2**32))
+print(pos)
