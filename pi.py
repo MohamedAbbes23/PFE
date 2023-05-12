@@ -9,3 +9,10 @@ print(T[1][2])
 
 
 
+import random
+ 
+# a random number with 128 bits
+a = random.getrandbits(128)
+print(a)
+a = bin(a)
+print(a)
