@@ -1,3 +1,8 @@
+a='1000'
+b= int(a, 2)
+
+print(b)
+
 a = 'GGAGCGAGAGAGTGAG'
 a = 'GGAGCGAGTGAGTAAG'
 
