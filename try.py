@@ -49,3 +49,17 @@ i = 2
 k = 11
 pos = round(abs(math.sin(i +k))* (2**32))
 print(pos)
+
+import math
+import random
+i = 2 
+k = 11
+pos = round(abs(math.sin(i +k))* (2**32))
+#print(pos)
+
+ 
+# a random number with 4 bits
+a=random.getrandbits(128)
+print(a)
+a=bin(a)
+print(a)
