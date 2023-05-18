@@ -3,14 +3,16 @@ pii='141592653589793238462643383279502884197169399375105820974944592307816406286
 import random
 import math
 kl = random.getrandbits(32)
-def getKey(kl):
+def getKey(kl,i):
     
 
     # Determiner les position 
-    pos1 = (round(abs(math.sin(1 +kl))* (2**32))% 9999)
+    pos1 = (round(abs(math.sin(i +kl))* (2**32))% 9999)
+    """
     pos2 = (round(abs(math.sin(2 +kl))* (2**32))% 9999)
     pos3 = (round(abs(math.sin(3 +kl))* (2**32))% 9999)
     pos4 = (round(abs(math.sin(4 +kl))* (2**32))% 9999)
+    """
 
     #convertir kl en binair 
     kl = str(bin(kl))
@@ -27,7 +29,7 @@ def getKey(kl):
 
     # k2
     element = ''
-    caracter = pii[pos2]
+    caracter = pii[pos1 + 1]
     element = str(bin(ord(caracter)))
     element = element[2:]  
     element = '00' + element
@@ -35,7 +37,7 @@ def getKey(kl):
 
     #k3
     element = ''
-    caracter = pii[pos3]
+    caracter = pii[pos1 + 2]
     element = str(bin(ord(caracter)))
     element = element[2:]  
     element = '00' + element
@@ -43,7 +45,7 @@ def getKey(kl):
 
     #k4
     element = ''
-    caracter = pii[pos4]
+    caracter = pii[pos1 + 3]
     element = str(bin(ord(caracter)))
     element = element[2:]
     element = '00' + element
@@ -114,15 +116,16 @@ def XorBio(word1,word2):
     return final 
 
 #a= stringToADN(kl) 
-k1 = stringToADN(getKey(kl))  
-k2 = stringToADN(getKey(kl))  
-k3 = stringToADN(getKey(kl))  
-k4 = stringToADN(getKey(kl)) 
+k1 = stringToADN(getKey(kl,1))  
+k2 = stringToADN(getKey(kl,2))  
+k3 = stringToADN(getKey(kl,3))  
+k4 = stringToADN(getKey(kl,4)) 
 
+# remplissage a 0 pour 32 bits
 kl = str(bin(kl))
 kl = kl[2:]
 while(len(kl)<32):
-    kl = '1' + kl
+    kl = '0' + kl
 
 kl = stringToADN(kl)
 #Appliquer le XOR BIO
@@ -131,7 +134,7 @@ k2 = XorBio(kl,k2)
 k3 = XorBio(kl,k3)
 k4 = XorBio(kl,k4)
 
-
+# finalKey sur 128 bits et 64 adn 
 finalKey = k1 + k2 + k3 + k4
 
 def ADNToBinary(adn):
@@ -156,6 +159,8 @@ k2 = ADNToBinary(k2)
 k3 = ADNToBinary(k3)
 k4 = ADNToBinary(k4)
 
+# mul binaire modulo
+
 k1 = int(k1, 2)
 k2 = int(k2, 2)
 k3 = int(k3, 2)
@@ -167,6 +172,7 @@ def mulModulo(num1,num2):
     res = ((num1 * num2) % 32)+1
     return res
 
+# etapee de chiffrement 
 def wordToBinary(word):
     res = ''
     for caracter in word :
