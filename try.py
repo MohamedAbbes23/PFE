@@ -1,3 +1,38 @@
+import random
+
+# Define the 32-bit LFSR polynomial as a binary string
+POLY = "100000100110000010001110110110111"
+
+def lfsr(seed):
+    """
+    Generates a random 32-bit integer using a 32-bit LFSR polynomial.
+    """
+    # Initialize the LFSR with the given seed
+    state = int(seed, 2)
+
+    # Iterate the LFSR until a full cycle is completed
+    for i in range(32):
+        # Extract the rightmost bit from the current state
+        bit = state & 1
+
+        # Shift the current state to the right by 1 bit
+        state >>= 1
+
+        # If the rightmost bit was a 1, XOR the current state with the polynomial
+        if bit == 1:
+            state ^= int(POLY, 2)
+
+    # Return the final state as a 32-bit integer
+    return state & 0xFFFFFFFF
+
+# Generate a random 32-bit integer using a random seed
+seed = bin(random.getrandbits(32))[2:].zfill(32)
+random_int = lfsr(seed)
+
+# Print the results
+print("Seed:      ", seed)
+print("Random int:", random_int)
+
 import numpy as np
 from pylfsr import LFSR
 
