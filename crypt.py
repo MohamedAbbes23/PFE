@@ -206,5 +206,6 @@ part4 =
 
 finalword = part1 + part3 + part2 + part4
 print(len(finalword))
+# decript
 
   
