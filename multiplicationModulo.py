@@ -1,59 +1,19 @@
-# Python 3 program of finding
-# modulo multiplication
-
-# Returns (a * b) % mod
-def moduloMultiplication(a, b, mod):
-
-	res = 0; # Initialize result
-
-	# Update a if it is more than
-	# or equal to mod
-	a = a % mod;
-
-	while (b):
-	
-		# If b is odd, add a with result
-		if (b & 1):
-			res = (res + a) % mod;
-			
-		# Here we assume that doing 2*a
-		# doesn't cause overflow
-		a = (2 * a) % mod;
-
-		b >>= 1; # b = b / 2
-	
-	return res;
-
-# Driver Code
-a = 10123465234878998;
-b = 65746311545646431;
-m = 10005412336548794;
-print(moduloMultiplication(a, b, m));
-	
-# Import math Library
-import math
-#***********
-str = 'CarBadBoxNumKeyValRayCppSan'
-
-n = 3
-chunks = [str[i:i+n] for i in range(0, len(str), n)]
-print(chunks)
-import mpmath as m
-m.mp.dps = 1000
-print(m.mp.pi)
-
-
-# Return the sine of different values
-print (math.sin(0.00))
-print (math.sin(-1.23))
-print (math.sin(10))
-print (math.sin(math.pi))
-print (math.sin(math.pi/2))
-#*******************
-import itertools
-
-intList = [2,6,8]
-
-result = list(itertools.permutations(intList,2))
-
-print(result)
+<!DOCTYPE html>
+<html>
+<head>
+  <title>YouTube Downloader</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-4">YouTube Downloader</h1>
+    <form class="mt-4">
+      <div class="form-group">
+        <label for="videoUrl">Enter YouTube Video URL:</label>
+        <input type="text" class="form-control" id="videoUrl" placeholder="https://www.youtube.com/watch?v=VIDEO_ID">
+      </div>
+      <button type="submit" class="btn btn-primary">Download</button>
+    </form>
+  </div>
+</body>
+</html>
