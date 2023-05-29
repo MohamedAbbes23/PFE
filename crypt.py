@@ -162,6 +162,7 @@ k4 = ADNToBinary(k4)
 # mul binaire modulo
 
 k1 = int(k1, 2)
+print(k1)
 k2 = int(k2, 2)
 k3 = int(k3, 2)
 k4 = int(k4, 2)
@@ -190,6 +191,12 @@ part2 = word[32:64]
 part3 = word[64:96]
 part4 = word[96:128]
 
+part1 = int(part1, 2)
+part2 = int(part2, 2)
+part3 = int(part3, 2)
+part4 = int(part4, 2)
+
+
 
 part1 = mulModulo(part1,k1)
 part2 = mulModulo(part2,k2)
@@ -197,15 +204,36 @@ part3 = mulModulo(part3,k4)
 part4 = mulModulo(part4,k4)
 
 
-part1 = 
-part2 = 
-part3 = 
-part4 = 
+part1 = bin(part1)
+part1 = part1[2:]
+while(len(part1)<32):
+    part1 = '0' + part1
+part2 = bin(part2)
+part2 = part2[2:]
+while(len(part2)<32):
+    part2 = '0' + part2
+part3 = bin(part3)
+part3 = part3[2:]
+while(len(part3)<32):
+    part3 = '0' + part3
+part4 = bin(part4)
+part4 = part4[2:]
+while(len(part4)<32):
+    part4 = '0' + part4
  
 
 
 finalword = part1 + part3 + part2 + part4
+finalword = stringToADN(finalword)
+""" 
+print(finalword)
 print(len(finalword))
-# decript
+"""
+#from math import pow
+word = ADNToBinary(finalword)
 
-  
+key1 = pow(k1, -1, 32)
+key2 = pow(k2, -1, 32)
+key3 = pow(k3, -1, 32)
+key4 = pow(k4, -1, 32)
+
