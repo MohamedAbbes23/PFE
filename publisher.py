@@ -2,17 +2,24 @@ pii='141592653589793238462643383279502884197169399375105820974944592307816406286
 
 import random
 import math
-kl = random.getrandbits(32)
+#génération du vecteur d'état de manière aléatoire
+state = random.getrandbits(32)
+state_send = state 
+#x5+x20+x31 poly donc >>26 pour obtenir bit 5, >>10 obtenir bit 20 et >>31 pour le bit31
+
+for i in range(32):
+	#calcul du bit d'entrée
+	newbie = ((state >> 26) ^ (state >> 11) ^ (state >> 31)) & 1
+        #changer le vecteur d'état
+	state = (state >> 1) | (newbie << 31)
+kl = int("{:032b}".format(state))
+
 def getKey(kl,i):
     
 
     # Determiner les position 
     pos1 = (round(abs(math.sin(i +kl))* (2**32))% 9999)
-    """
-    pos2 = (round(abs(math.sin(2 +kl))* (2**32))% 9999)
-    pos3 = (round(abs(math.sin(3 +kl))* (2**32))% 9999)
-    pos4 = (round(abs(math.sin(4 +kl))* (2**32))% 9999)
-    """
+   
 
     #convertir kl en binair 
     kl = str(bin(kl))
@@ -53,7 +60,7 @@ def getKey(kl,i):
     key = k1+k2+k3+k4 
     return key 
 
-def stringToADN(k):
+def binary_to_ADN(k):
     final = ''
     n=2
     k = [k[i:i+n] for i in range(0, len(k), n)]
@@ -115,19 +122,24 @@ def XorBio(word1,word2):
                     final +='C'
     return final 
 
-#a= stringToADN(kl) 
-k1 = stringToADN(getKey(kl,1))  
-k2 = stringToADN(getKey(kl,2))  
-k3 = stringToADN(getKey(kl,3))  
-k4 = stringToADN(getKey(kl,4)) 
+k1 = getKey(kl,1)
+k2 = getKey(kl,2)
+k3 = getKey(kl,3)
+k4 = getKey(kl,4)
+
+
+k1 = binary_to_ADN(k1)  
+k2 = binary_to_ADN(k2)  
+k3 = binary_to_ADN(k3)  
+k4 = binary_to_ADN(k4) 
 
 # remplissage a 0 pour 32 bits
 kl = str(bin(kl))
 kl = kl[2:]
 while(len(kl)<32):
     kl = '0' + kl
-
-kl = stringToADN(kl)
+kl=kl[0:32]    
+kl = binary_to_ADN(kl)
 #Appliquer le XOR BIO
 k1 = XorBio(kl,k1)
 k2 = XorBio(kl,k2)
@@ -154,86 +166,131 @@ def ADNToBinary(adn):
      
     return final
 
-k1 = ADNToBinary(k1)
-k2 = ADNToBinary(k2)
-k3 = ADNToBinary(k3)
-k4 = ADNToBinary(k4)
+def string_to_binary(string):
+    binary = ''.join(format(ord(char), '08b') for char in string)
+    return binary
 
-# mul binaire modulo
+word = input('Enter word : ')
+#word =input('Enter message : ')
+word_in_binary = string_to_binary(word)
+while(len(word_in_binary)<128):
+    word_in_binary = '0' + word_in_binary
 
-k1 = int(k1, 2)
-print(k1)
-k2 = int(k2, 2)
-k3 = int(k3, 2)
-k4 = int(k4, 2)
+part1 = word_in_binary[0:32]
+part2 = word_in_binary[32:64]
+part3 = word_in_binary[64:96]
+part4 = word_in_binary[96:128]
 
+part1_in_ADN = binary_to_ADN(part1) 
+part2_in_ADN = binary_to_ADN(part2)
+part3_in_ADN = binary_to_ADN(part3)
+part4_in_ADN = binary_to_ADN(part4)
 
-
-def mulModulo(num1,num2):
-    res = ((num1 * num2) % 32)+1
-    return res
-
-# etapee de chiffrement 
-def wordToBinary(word):
-    res = ''
-    for caracter in word :
-        res += str(bin(ord(caracter)))
-    res = res.replace("b","")    
-    final = res
+def add_adn(word1,word2):
+    final = ''
+    for i in range(len(word1)):
+        if(word1[i] == 'A'):
+            match word2[i]:
+                case 'A':
+                    final +='A' 
+                case 'T':
+                    final +='T'
+                case 'C':
+                    final +='C' 
+                case 'G':
+                    final +='G'
+        if(word1[i] == 'T'):
+            match word2[i]:
+                case 'A':
+                    final +='T' 
+                case 'T':
+                    final +='C'
+                case 'C':
+                    final +='G' 
+                case 'G':
+                    final +='A'
+        if(word1[i] == 'C'):
+            match word2[i]:
+                case 'A':
+                    final +='C' 
+                case 'T':
+                    final +='G'
+                case 'C':
+                    final +='A' 
+                case 'G':
+                    final +='T'
+        if(word1[i] == 'G'):
+            match word2[i]:
+                case 'A':
+                    final +='G' 
+                case 'T':
+                    final +='A'
+                case 'C':
+                    final +='T' 
+                case 'G':
+                    final +='C'
     return final
 
-word ='wordwordwordword'
-word = wordToBinary(word)
+def sub_adn(word1,word2):
+    final = ''
+    for i in range(len(word1)):
+        if(word1[i] == 'A'):
+            match word2[i]:
+                case 'A':
+                    final +='A' 
+                case 'T':
+                    final +='G'
+                case 'C':
+                    final +='C' 
+                case 'G':
+                    final +='T'
+        if(word1[i] == 'T'):
+            match word2[i]:
+                case 'A':
+                    final +='T' 
+                case 'T':
+                    final +='A'
+                case 'C':
+                    final +='G' 
+                case 'G':
+                    final +='C'
+        if(word1[i] == 'C'):
+            match word2[i]:
+                case 'A':
+                    final +='C' 
+                case 'T':
+                    final +='T'
+                case 'C':
+                    final +='A' 
+                case 'G':
+                    final +='G'
+        if(word1[i] == 'G'):
+            match word2[i]:
+                case 'A':
+                    final +='G' 
+                case 'T':
+                    final +='C'
+                case 'C':
+                    final +='T' 
+                case 'G':
+                    final +='A'
+    return final
 
+bloc1 = add_adn(part1_in_ADN,k1)
+bloc2 = add_adn(part2_in_ADN,k2)
+bloc3 = add_adn(part3_in_ADN,k3)
+bloc4 = add_adn(part4_in_ADN,k4)
 
-part1 = word[0:32]
-part2 = word[32:64]
-part3 = word[64:96]
-part4 = word[96:128]
+final_word = bloc1 + bloc3 + bloc2 + bloc4
+print(f"Message envoye : {final_word}")
 
-part1 = int(part1, 2)
-part2 = int(part2, 2)
-part3 = int(part3, 2)
-part4 = int(part4, 2)
-
-
-
-part1 = mulModulo(part1,k1)
-part2 = mulModulo(part2,k2)
-part3 = mulModulo(part3,k4)
-part4 = mulModulo(part4,k4)
-
-
-part1 = bin(part1)
-part1 = part1[2:]
-while(len(part1)<32):
-    part1 = '0' + part1
-part2 = bin(part2)
-part2 = part2[2:]
-while(len(part2)<32):
-    part2 = '0' + part2
-part3 = bin(part3)
-part3 = part3[2:]
-while(len(part3)<32):
-    part3 = '0' + part3
-part4 = bin(part4)
-part4 = part4[2:]
-while(len(part4)<32):
-    part4 = '0' + part4
- 
-
-
-finalword = part1 + part3 + part2 + part4
-finalword = stringToADN(finalword)
-""" 
-print(finalword)
-print(len(finalword))
-"""
-#from math import pow
-word = ADNToBinary(finalword)
-
-key1 = pow(k1, -1, 32)
-key2 = pow(k2, -1, 32)
-key3 = pow(k3, -1, 32)
-key4 = pow(k4, -1, 32)
+import paho.mqtt.client as mqtt
+import time
+mqttBroker='broker.emqx.io'
+#mqttBroker = "mqtt.eclipseprojects.io"
+#mqttBroker = "broker.hivemq.com"
+client = mqtt.Client("Temperature_Inside")
+client.connect(mqttBroker)
+client.publish("pfe", state_send)
+client.publish("pfe", final_word)
 
